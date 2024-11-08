@@ -47,7 +47,13 @@ class MeuGrafo(GrafoListaAdjacencia):
         Verifica se há arestas paralelas no grafo
         :return: Um valor booleano que indica se existem arestas paralelas no grafo.
         """
-        pass
+        for a in self.arestas:
+            for b in self.arestas:
+                aresta_a = self.arestas[a]
+                aresta_b = self.arestas[b]
+                if ((aresta_a.v1 == aresta_b.v1 and aresta_a.v2 == aresta_b.v2) or (aresta_a.v1 == aresta_b.v2 and aresta_a._v2 == aresta_b.v1)) and not aresta_a.rotulo == aresta_b.rotulo and aresta_a.peso == aresta_b.peso:
+                    return True
+        return False
 
     def arestas_sobre_vertice(self, V):
         """
