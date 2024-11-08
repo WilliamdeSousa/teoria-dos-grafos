@@ -88,4 +88,16 @@ class MeuGrafo(GrafoListaAdjacencia):
         Verifica se o grafo é completo.
         :return: Um valor booleano que indica se o grafo é completo
         """
-        pass
+        if self.ha_laco() or self.ha_paralelas():
+            return False
+
+        tam = len(self.vertices)
+        for i in range(tam):
+            for j in range(i + 1, tam):
+                u, v = self.vertices[i], self.vertices[j]
+                for a in self.arestas:
+                    if (self.arestas[a].v1 == u and self.arestas[a].v2 == v) or (self.arestas[a].v2 == u and self.arestas[a].v1 == v):
+                        break
+                else:
+                    return False
+        return True
