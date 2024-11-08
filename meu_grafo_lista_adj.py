@@ -18,7 +18,10 @@ class MeuGrafo(GrafoListaAdjacencia):
         Verifica se existe algum laço no grafo.
         :return: Um valor booleano que indica se existe algum laço.
         """
-        pass
+        for a in self.arestas:
+            if self.arestas[a].v1 == self.arestas[a].v2:
+                return True
+        return False
 
     def grau(self, V=''):
         """
