@@ -30,7 +30,17 @@ class MeuGrafo(GrafoListaAdjacencia):
         :return: Um valor inteiro que indica o grau do vértice
         :raises: VerticeInvalidoError se o vértice não existe no grafo
         """
-        pass
+        if not self.existe_rotulo_vertice(V):
+            raise VerticeInvalidoError(f'Não existe vértice com rótulo "{V}"')
+
+        grau = 0
+        for a in self.arestas:
+            if self.arestas[a].v1.rotulo == V:
+                grau += 1
+            if self.arestas[a].v2.rotulo == V:
+                grau += 1
+
+        return grau
 
     def ha_paralelas(self):
         """
