@@ -147,3 +147,55 @@ class MeuGrafo(GrafoListaAdjacenciaNaoDirecionado):
             fila_atual = fila_atual[1:]
         
         return solucao
+
+    def ha_ciclo(self):
+        """
+        Verifica se há um ciclo no grafo e, se houver, retorna a sequência de vértices e arestas do ciclo.
+        :return:
+            False: se não houver ciclo no grafo.
+            List: uma lista no formato [v1, a1, v2, a2, ..., vn, an, v1], representando o ciclo.
+        """
+        for v in self.vertices:
+            retorno = [v.rotulo]
+            v_visitados = {v.rotulo: False for v in self.vertices}
+            a_visitadas = {a: False for a in self.arestas}
+
+            while len(retorno) > 0:
+                atual = retorno[-1]
+                v_visitados[atual] = True
+
+                for a in sorted(list(self.arestas)):  # para cada aresta
+                    if a_visitadas[a]:  # se a aresta já foi visitada, pule essa iteração
+                        continue
+
+                    aresta = self.arestas[a]
+                    
+                    if aresta.v1.rotulo == atual:  # se o v1 é o vértice atual
+                        retorno.append(aresta.rotulo)
+                        retorno.append(aresta.v2.rotulo)
+                        if not v_visitados[aresta.v2.rotulo]:  # se o v2 é um vértice não visitado: visitamos
+                            v_visitados[aresta.v2.rotulo] = True
+                            a_visitadas[a] = True
+                            break  # termina o loop e reinicia para verificar as arestas de v2
+                        else:  # se o vértice v2 já foi visitado, então é um vértice de retorno, 
+                            return retorno[retorno.index(aresta.v2.rotulo):]  # devemos retornar da primeira aparição de v2 até o final.
+                    
+                    if aresta.v2.rotulo == atual:  # se o v2 é o vértice atual 
+                        retorno.append(aresta.rotulo)
+                        retorno.append(aresta.v1.rotulo)
+
+                        if not v_visitados[aresta.v1.rotulo]:  # se o v1 é um vértice não visitado: visitamos
+                            v_visitados[aresta.v1.rotulo] = True
+                            a_visitadas[a] = True
+
+                            break  # termina o loop e reinicia para verificar as arestas de v1
+                        else:  # se o vértice v1 já foi visitado, então é um vértice de retorno, 
+                            return retorno[retorno.index(aresta.v1.rotulo):]  # devemos retornar da primeira aparição de v1 até o final.
+                        
+                else:  # se não houver arestas a partir de do vértice atual
+                    # retorno = []
+                    retorno.pop()  # remove o último vértice
+                    if len(retorno) == 0:  # se o retorno só tinha um vértice, então acabamos e não achamos ciclo.
+                        continue
+                    retorno.pop()  # remove a última aresta
+        return False
