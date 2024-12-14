@@ -25,22 +25,9 @@ class TestGrafo(unittest.TestCase):
         # Esse tem um pequena diferença na segunda aresta
         self.g_p4 = GrafoJSON.json_to_grafo('test_json/grafo_pb4.json', MeuGrafo())
 
-        # Grafo da Paraíba sem arestas paralelas
-        self.g_p_sem_paralelas = MeuGrafo()
-        self.g_p_sem_paralelas.adiciona_vertice("J")
-        self.g_p_sem_paralelas.adiciona_vertice("C")
-        self.g_p_sem_paralelas.adiciona_vertice("E")
-        self.g_p_sem_paralelas.adiciona_vertice("P")
-        self.g_p_sem_paralelas.adiciona_vertice("M")
-        self.g_p_sem_paralelas.adiciona_vertice("T")
-        self.g_p_sem_paralelas.adiciona_vertice("Z")
-        self.g_p_sem_paralelas.adiciona_aresta('a1', 'J', 'C')
-        self.g_p_sem_paralelas.adiciona_aresta('a2', 'C', 'E')
-        self.g_p_sem_paralelas.adiciona_aresta('a3', 'P', 'C')
-        self.g_p_sem_paralelas.adiciona_aresta('a4', 'T', 'C')
-        self.g_p_sem_paralelas.adiciona_aresta('a5', 'M', 'C')
-        self.g_p_sem_paralelas.adiciona_aresta('a6', 'M', 'T')
-        self.g_p_sem_paralelas.adiciona_aresta('a7', 'T', 'Z')
+        self.g_p_sem_paralelas = GrafoJSON.json_to_grafo('test_json/grafo_pb_simples.json', MeuGrafo())
+
+        self.g_p_completo = GrafoJSON.json_to_grafo('test_json/grafo_pb_completo.json', MeuGrafo())
 
         # Grafos completos
         self.g_c = GrafoBuilder().tipo(MeuGrafo()) \
@@ -49,7 +36,7 @@ class TestGrafo(unittest.TestCase):
         self.g_c2 = GrafoBuilder().tipo(MeuGrafo()) \
             .vertices(3).arestas(True).build()
 
-        self.g_c3 = GrafoBuilder().tipo(MeuGrafo()) \
+        self.g_c1 = GrafoBuilder().tipo(MeuGrafo()) \
             .vertices(1).build()
 
         # Grafos com laco
@@ -167,9 +154,6 @@ class TestGrafo(unittest.TestCase):
                 Aresta('a7', Vertice('D'), Vertice('H'))
             ]
         ).build()
-
-
-
 
     def test_adiciona_aresta(self):
         self.assertTrue(self.g_p.adiciona_aresta('a10', 'J', 'C'))
@@ -303,3 +287,17 @@ class TestGrafo(unittest.TestCase):
         self.assertEqual(self.g_c3.bfs('J'), self.g_c3_bfs)
         self.assertEqual(self.g_c4.bfs('J'), self.g_c4_bfs)
         self.assertEqual(self.g_c5.bfs('A'), self.g_c5_bfs)
+    
+    def test_ha_ciclo(self):
+        self.assertEqual(self.g_p.ha_ciclo(), ['C', 'a2', 'E', 'a3', 'C'])
+        self.assertEqual(self.g_p_sem_paralelas.ha_ciclo(), ['C', 'a4', 'T', 'a6', 'M', 'a5', 'C'])
+        self.assertEqual(self.g_p_completo.ha_ciclo(), ['E', 'a12', 'P', 'a16', 'M', 'a13', 'E'])
+        self.assertEqual(self.g_l1.ha_ciclo(), ['A', 'a1', 'A'])
+        self.assertEqual(self.g_l2.ha_ciclo(), ['B', 'a2', 'B'])
+        self.assertEqual(self.g_l3.ha_ciclo(), ['C', 'a2', 'C'])
+
+        self.assertFalse(self.g_c1.ha_ciclo())
+        self.assertFalse(self.g_d2.ha_ciclo())
+        self.assertFalse(self.g_l1.dfs().ha_ciclo())
+        self.assertFalse(self.g_d.ha_ciclo())
+        self.assertFalse(self.g_c2_bfs.ha_ciclo())
