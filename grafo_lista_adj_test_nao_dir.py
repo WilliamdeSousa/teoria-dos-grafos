@@ -1,5 +1,6 @@
 import unittest
 from meu_grafo_lista_adj_nao_dir import *
+from gerar_grafos_teste import vertices_pb
 from bibgrafo.aresta import Aresta
 from bibgrafo.vertice import Vertice
 from bibgrafo.grafo_errors import *
@@ -73,6 +74,102 @@ class TestGrafo(unittest.TestCase):
 
         # Grafo p\teste de remoção em casta
         self.g_r = GrafoBuilder().tipo(MeuGrafo()).vertices(2).arestas(1).build()
+        
+
+        self.g_c6 = GrafoBuilder().tipo(MeuGrafo()).vertices(['J', 'C', 'E']).arestas(True).build()
+
+        self.g_c6_dfs = GrafoBuilder().tipo(MeuGrafo()).vertices(["J","C","E"]).arestas(
+            [Aresta('a1', vertices_pb['J'], vertices_pb['C']),
+             Aresta('a3',vertices_pb['C'], vertices_pb['E'])]).build()
+
+        self.g_c2 = GrafoBuilder().tipo(MeuGrafo()).vertices(["J","C","E","T"]).arestas(True).build()
+
+        self.g_c2_dfs = GrafoBuilder().tipo(MeuGrafo()).vertices(["J","C","E","T"]).arestas(
+            [Aresta('a1', vertices_pb['J'], vertices_pb['C']),
+             Aresta('a4',vertices_pb['C'], vertices_pb['E']),
+             Aresta('a6',vertices_pb['E'], vertices_pb['T'])]).build()
+
+        self.g_c3 = GrafoBuilder().tipo(MeuGrafo()).vertices(["J","C","E","T","P"]).arestas(True).build()
+
+        self.g_c3_dfs = GrafoBuilder().tipo(MeuGrafo()).vertices(["J", "C", "E", "T","P"]).arestas(
+            [Aresta('a1', vertices_pb['J'], vertices_pb['C']),
+             Aresta('a5', vertices_pb['C'], vertices_pb['E']),
+             Aresta('a8', vertices_pb['E'], vertices_pb['T']),
+             Aresta('a10', vertices_pb['T'],vertices_pb['P'])]).build()
+
+        lista_aresta = [Aresta('a1',Vertice('C'),Vertice('J')),
+                Aresta('a2',Vertice('J'),Vertice('E')),
+                Aresta('a3',Vertice('C'),Vertice('T')),
+                Aresta('a4',Vertice('C'),Vertice('P'))]
+        self.g_c4 = grafo = GrafoBuilder().tipo(MeuGrafo()).vertices(["J","C","E","T","P"]).arestas(lista_aresta).build()
+
+        self.g_c4_dfs = GrafoBuilder().tipo(MeuGrafo()).vertices(["J", "C", "E", "T","P"]).arestas(
+            [Aresta('a1', vertices_pb['J'], vertices_pb['C']),
+             Aresta('a3', vertices_pb['C'], vertices_pb['T']),
+             Aresta('a4', vertices_pb['C'], vertices_pb['P']),
+             Aresta('a2', vertices_pb['J'],vertices_pb['E'])]).build()
+
+        self.g_c6_bfs = GrafoBuilder().tipo(MeuGrafo()).vertices(["J","C","E"]).arestas(
+            [Aresta('a1', vertices_pb['J'], vertices_pb['C']),
+             Aresta('a2',vertices_pb['J'], vertices_pb['E'])]).build()
+
+        self.g_c2_bfs = GrafoBuilder().tipo(MeuGrafo()).vertices(["J", "C", "E", "T"]).arestas(
+            [Aresta('a1', vertices_pb['J'], vertices_pb['C']),
+             Aresta('a2', vertices_pb['J'], vertices_pb['E']),
+             Aresta('a3', vertices_pb['J'], vertices_pb['T'])]).build()
+
+        self.g_c3_bfs = GrafoBuilder().tipo(MeuGrafo()).vertices(["J", "C", "E", "T", "P"]).arestas(
+            [Aresta('a1', vertices_pb['J'], vertices_pb['C']),
+             Aresta('a2', vertices_pb['J'], vertices_pb['E']),
+             Aresta('a3', vertices_pb['J'], vertices_pb['T']),
+             Aresta('a4', vertices_pb['J'], vertices_pb['P'])]).build()
+
+        self.g_c4_bfs = GrafoBuilder().tipo(MeuGrafo()).vertices(["J", "C", "E", "T", "P"]).arestas(
+            [Aresta('a1', vertices_pb['J'], vertices_pb['C']),
+             Aresta('a2', vertices_pb['J'], vertices_pb['E']),
+             Aresta('a3', vertices_pb['C'], vertices_pb['T']),
+             Aresta('a4', vertices_pb['C'], vertices_pb['P'])]).build()
+        
+        vertices = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+
+        self.g_c5 = GrafoBuilder().tipo(MeuGrafo()).vertices(vertices).arestas(
+            [
+                Aresta('a1', Vertice('A'), Vertice('B')),
+                Aresta('a2', Vertice('A'), Vertice('C')),
+                Aresta('a3', Vertice('B'), Vertice('E')),
+                Aresta('a4', Vertice('B'), Vertice('D')),
+                Aresta('a5', Vertice('D'), Vertice('F')),
+                Aresta('a6', Vertice('D'), Vertice('G')),
+                Aresta('a7', Vertice('D'), Vertice('H'))
+            ]
+        ).build()
+
+        self.g_c5_dfs = GrafoBuilder().tipo(MeuGrafo()).vertices(vertices).arestas(
+            [
+                Aresta('a1', Vertice('A'), Vertice('B')),
+                Aresta('a3', Vertice('B'), Vertice('E')),
+                Aresta('a4', Vertice('B'), Vertice('D')),
+                Aresta('a5', Vertice('D'), Vertice('F')),
+                Aresta('a6', Vertice('D'), Vertice('G')),
+                Aresta('a7', Vertice('D'), Vertice('H')),
+                Aresta('a2', Vertice('A'), Vertice('C'))
+            ]
+        ).build()
+
+        self.g_c5_bfs = GrafoBuilder().tipo(MeuGrafo()).vertices(vertices).arestas(
+            [
+                Aresta('a1', Vertice('A'), Vertice('B')),
+                Aresta('a2', Vertice('A'), Vertice('C')),
+                Aresta('a4', Vertice('B'), Vertice('D')),
+                Aresta('a3', Vertice('B'), Vertice('E')),
+                Aresta('a5', Vertice('D'), Vertice('F')),
+                Aresta('a6', Vertice('D'), Vertice('G')),
+                Aresta('a7', Vertice('D'), Vertice('H'))
+            ]
+        ).build()
+
+
+
 
     def test_adiciona_aresta(self):
         self.assertTrue(self.g_p.adiciona_aresta('a10', 'J', 'C'))
@@ -192,3 +289,17 @@ class TestGrafo(unittest.TestCase):
         self.assertFalse((self.g_l5.eh_completo()))
         self.assertFalse((self.g_d.eh_completo()))
         self.assertFalse((self.g_d2.eh_completo()))
+
+    def test_dfs(self):
+        self.assertEqual(self.g_c6.dfs('J'), self.g_c6_dfs)
+        self.assertEqual(self.g_c2.dfs('J'), self.g_c2_dfs)
+        self.assertEqual(self.g_c3.dfs('J'), self.g_c3_dfs)
+        self.assertEqual(self.g_c4.dfs('J'), self.g_c4_dfs)
+        self.assertEqual(self.g_c5.dfs('A'), self.g_c5_dfs)
+
+    def test_bfs(self):
+        self.assertEqual(self.g_c6.bfs('J'), self.g_c6_bfs)
+        self.assertEqual(self.g_c2.bfs('J'), self.g_c2_bfs)
+        self.assertEqual(self.g_c3.bfs('J'), self.g_c3_bfs)
+        self.assertEqual(self.g_c4.bfs('J'), self.g_c4_bfs)
+        self.assertEqual(self.g_c5.bfs('A'), self.g_c5_bfs)

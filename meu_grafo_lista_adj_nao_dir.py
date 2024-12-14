@@ -101,3 +101,49 @@ class MeuGrafo(GrafoListaAdjacenciaNaoDirecionado):
                 else:
                     return False
         return True
+
+    def dfs(self, V=''):
+        pilha_atual = [V]
+        solucao = MeuGrafo()
+
+        solucao.adiciona_vertice(V)
+        while len(pilha_atual) > 0:
+            for aresta in self.arestas:
+                if self.arestas[aresta].v1.rotulo == pilha_atual[-1] and not solucao.existe_rotulo_vertice(self.arestas[aresta].v2.rotulo):
+                    # visitar V2
+                    solucao.adiciona_vertice(self.arestas[aresta].v2.rotulo)
+                    solucao.adiciona_aresta(self.arestas[aresta])
+                    pilha_atual.append(self.arestas[aresta].v2.rotulo)
+                    break
+
+                if self.arestas[aresta].v2.rotulo == pilha_atual[-1] and not solucao.existe_rotulo_vertice(self.arestas[aresta].v1.rotulo):
+                    # visitar V1
+                    solucao.adiciona_vertice(self.arestas[aresta].v1.rotulo)
+                    solucao.adiciona_aresta(self.arestas[aresta])
+                    pilha_atual.append(self.arestas[aresta].v1.rotulo)
+                    break
+            else:
+                pilha_atual.pop()
+        
+        return solucao
+    
+    def bfs(self, V=''):
+        fila_atual = [V]
+        solucao = MeuGrafo()
+
+        solucao.adiciona_vertice(V)
+        while len(fila_atual) > 0:
+            for aresta in self.arestas:
+                if self.arestas[aresta].v1.rotulo == fila_atual[0] and not solucao.existe_rotulo_vertice(self.arestas[aresta].v2.rotulo):
+                    solucao.adiciona_vertice(self.arestas[aresta].v2.rotulo)
+                    solucao.adiciona_aresta(self.arestas[aresta])
+                    fila_atual.append(self.arestas[aresta].v2.rotulo)
+
+                if self.arestas[aresta].v2.rotulo == fila_atual[0] and not solucao.existe_rotulo_vertice(self.arestas[aresta].v1.rotulo):
+                    solucao.adiciona_vertice(self.arestas[aresta].v1.rotulo)
+                    solucao.adiciona_aresta(self.arestas[aresta])
+                    fila_atual.append(self.arestas[aresta].v1.rotulo)
+
+            fila_atual = fila_atual[1:]
+        
+        return solucao
