@@ -301,3 +301,22 @@ class TestGrafo(unittest.TestCase):
         self.assertFalse(self.g_l1.dfs().ha_ciclo())
         self.assertFalse(self.g_d.ha_ciclo())
         self.assertFalse(self.g_c2_bfs.ha_ciclo())
+
+    def test_caminho(self):
+        self.assertEqual(self.g_d.caminho(1), ['A', 'asd', 'B'])
+        self.assertIsNone(self.g_d2.caminho(1))
+        self.assertEqual(self.g_p.caminho(2), ['J', 'a1', 'C', 'a7', 'M'])
+        self.assertEqual(self.g_p.caminho(4), ['J', 'a1', 'C', 'a7', 'M', 'a8', 'T', 'a9', 'Z'])
+        self.assertIsNone(self.g_p.caminho(5))
+        self.assertEqual(self.g_p_completo.caminho(6), ['J', 'a1', 'C', 'a10', 'T', 'a14', 'E', 'a12', 'P', 'a16', 'M', 'a20', 'Z'])
+        self.assertIsNone(self.g_p_completo.caminho(7))
+        self.assertEqual(self.g_l1.caminho(1), ['A', 'a2', 'B'])
+        self.assertIsNone(self.g_l1.caminho(4))        
+
+    def test_conexo(self):
+        self.assertFalse(self.g_d.conexo())
+        self.assertFalse(self.g_d2.conexo())
+        self.assertTrue(self.g_p.conexo())
+        self.assertTrue(self.g_p2.conexo())
+        self.assertTrue(self.g_p_sem_paralelas.conexo())
+        self.assertTrue(self.g_r.conexo())
